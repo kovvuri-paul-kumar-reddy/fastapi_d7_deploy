@@ -18,31 +18,31 @@ def get_db():
 def welcome():
     return "welcome to extra class!"
 
-@app.post("/register", response_model=schemas.UserResponse)
-def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    return crud.create_user(db, user)
+@app.post("/register", response_model=schemas.mobileResponse)
+def register(mobiles: schemas.mobileCreate, db: Session = Depends(get_db)):
+    return crud.create_mobiles(db, mobiles)
 
-@app.get("/users", response_model=list[schemas.UserResponse])
-def read_users(db: Session = Depends(get_db)):
-    return crud.get_users(db)
+@app.get("/mobiles", response_model=list[schemas.mobileResponse])
+def read_mobiles(db: Session = Depends(get_db)):
+    return crud.get_mobiles(db)
 
-@app.get("/users/{user_id}", response_model=schemas.UserResponse)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    user = crud.get_user(db, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
+@app.get("/mobiles/{mobile_id}", response_model=schemas.mobileResponse)
+def read_mobile(mobile_id: int, db: Session = Depends(get_db)):
+    mobile = crud.get_mobile(db, mobile_id)
+    if not mobile:
+        raise HTTPException(status_code=404, detail="mobile not found")
+    return mobile
 
-@app.put("/users/{user_id}", response_model=schemas.UserResponse)
-def update(user_id: int, user: schemas.UserCreate, db: Session = Depends(get_db)):
-    updated_user = crud.update_user(db, user_id, user)
-    if not updated_user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return updated_user
+@app.put("/mobiles/{mobile_id}", response_model=schemas.mobileResponse)
+def update(mobile_id: int, mobile: schemas.mobileCreate, db: Session = Depends(get_db)):
+    updated_mobile = crud.update_mobile(db, mobile_id, mobile)
+    if not updated_mobile:
+        raise HTTPException(status_code=404, detail="mobile not found")
+    return updated_mobile
 
-@app.delete("/users/{user_id}")
-def delete(user_id: int, db: Session = Depends(get_db)):
-    user = crud.delete_user(db, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return {"message": "User deleted"}
+@app.delete("/mobiles/{mobile_id}")
+def delete(mobile_id: int, db: Session = Depends(get_db)):
+    mobile = crud.delete_mobile(db, mobile_id)
+    if not mobile:
+        raise HTTPException(status_code=404, detail="mobile not found")
+    return {"message": "mobile deleted"}
